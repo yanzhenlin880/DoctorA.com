@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Doctor A 手機急救站｜Apple原廠零件獨立維修</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF9;
+    --panel:#FFFFFF;
+    --panel-2:#F1F0EE;
+    --ink:#18181A;
+    --red:#E4132C;
+    --red-dim:#F6C7CD;
+    --gray:#75777C;
+    --gray-dim:#A9AAAE;
+    --line:#E6E4E0;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(80% 50% at 90% 0%, #EFEEEB 0%, transparent 60%),
+      radial-gradient(70% 45% at 0% 25%, #F0EFEC 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans TC', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    max-width:480px; margin:0 auto; overflow-x:hidden;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  a{ color:inherit; text-decoration:none; }
+  img,svg{ display:block; }
+
+  /* scroll fade-in */
+  .fade-section{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+  .fade-section.is-visible{ opacity:1; transform:translateY(0); }
+
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+
+  /* NAV */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px; background:rgba(250,250,249,0.88);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+  }
+  .nav-brand{ display:flex; align-items:center; gap:8px; }
+  .cross{ width:22px; height:22px; position:relative; }
+  .cross::before,.cross::after{ content:""; position:absolute; background:var(--red); }
+  .cross::before{ left:9px; top:0; width:4px; height:22px; }
+  .cross::after{ top:9px; left:0; width:22px; height:4px; }
+  .nav-name{ font-weight:900; font-size:14.5px; color:var(--ink); }
+  .nav-links{ display:flex; gap:14px; font-family:'JetBrains Mono',monospace; }
+  .nav-links a{ color:var(--gray); font-size:11px; transition:color .2s; }
+  .nav-links a:hover{ color:var(--red); }
+
+  /* HERO */
+  .hero{ padding:20px 20px 26px; }
+  .carousel{
+    position:relative; width:100%; aspect-ratio:4/5;
+    background:#141416; overflow:hidden;
+  }
+  .slide{
+    position:absolute; inset:0; opacity:0;
+    animation:cycle 12s infinite;
+  }
+  .slide svg{ width:100%; height:100%; }
+  .slide.s1{ animation-delay:0s; }
+  .slide.s2{ animation-delay:4s; }
+  .slide.s3{ animation-delay:8s; }
+  @keyframes cycle{
+    0%{ opacity:0; }
+    4%{ opacity:1; }
+    30%{ opacity:1; }
+    36%{ opacity:0; }
+    100%{ opacity:0; }
+  }
+  .dots{ position:absolute; left:0; right:0; bottom:14px; display:flex; justify-content:center; gap:7px; z-index:2; }
+  .dots span{ width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.35); }
+  .dots span.a1{ animation:dotcycle 12s infinite; animation-delay:0s; }
+  .dots span.a2{ animation:dotcycle 12s infinite; animation-delay:4s; }
+  .dots span.a3{ animation:dotcycle 12s infinite; animation-delay:8s; }
+  @keyframes dotcycle{
+    0%{ background:rgba(255,255,255,0.35); width:6px; }
+    4%{ background:var(--red); width:16px; }
+    30%{ background:var(--red); width:16px; }
+    36%{ background:rgba(255,255,255,0.35); width:6px; }
+    100%{ background:rgba(255,255,255,0.35); width:6px; }
+  }
+
+  .hero-cta{ display:flex; gap:10px; margin-top:16px; }
+  .btn{ flex:1; text-align:center; padding:14px 10px; font-size:13.5px; font-weight:700; transition:transform .15s, opacity .15s, background .2s, color .2s; }
+  .btn:active{ transform:scale(0.97); }
+  .btn-red{ background:var(--red); color:#fff; }
+  .btn-red:hover{ opacity:0.88; }
+  .btn-line{ border:1px solid var(--line); color:var(--ink); }
+  .btn-line:hover{ border-color:var(--red); color:var(--red); }
+
+  /* SECTION */
+  section{ padding:36px 22px; border-bottom:1px solid var(--line); }
+  .tag{ font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--red); letter-spacing:0.08em; display:block; margin-bottom:6px; }
+  h2{ font-size:19px; font-weight:900; margin:0 0 16px; color:var(--ink); }
+
+  /* ABOUT */
+  .about p{ font-size:13.5px; color:#4B4C50; line-height:1.85; margin:0; }
+  .vitals{ display:flex; gap:10px; margin-top:20px; }
+  .vital{ flex:1; background:var(--panel); border:1px solid var(--line); padding:12px 10px; text-align:center; transition:border-color .2s; }
+  .vital:hover{ border-color:var(--red-dim); }
+  .vital b{ display:block; font-family:'JetBrains Mono',monospace; color:var(--red); font-size:16px; }
+  .vital span{ font-size:10.5px; color:var(--gray); }
+
+  /* SERVICES */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); }
+  .cell{ background:var(--panel); padding:18px 14px; transition:background .2s; }
+  .cell:hover{ background:var(--panel-2); }
+  .cell .ic{ color:var(--red); margin-bottom:10px; }
+  .cell h3{ font-size:13.5px; margin:0; font-weight:700; color:var(--ink); }
+
+  /* NEWS */
+  .news-item{ display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--line); }
+  .news-item:last-child{ border-bottom:none; }
+  .news-date{ font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--red); flex:none; width:58px; padding-top:2px; }
+  .news-body h3{ font-size:13px; margin:0 0 4px; font-weight:700; color:var(--ink); }
+  .news-body p{ font-size:12px; color:var(--gray); margin:0; line-height:1.6; }
+
+  /* CONTACT */
+  .clinic{ background:var(--panel); border:1px solid var(--line); margin-bottom:14px; overflow:hidden; transition:border-color .2s; }
+  .clinic:hover{ border-color:var(--red-dim); }
+  .clinic-map{ width:100%; height:140px; border:0; display:block; filter:grayscale(0.4) contrast(0.95); }
+  .clinic-info{ padding:14px 16px; }
+  .clinic-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .clinic-name{ font-weight:700; font-size:14px; color:var(--ink); }
+  .clinic-rx{ font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--red); }
+  .clinic-addr{ font-size:12.5px; color:#4B4C50; margin-bottom:8px; }
+  .clinic-tel{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--red); border-top:1px solid var(--line); padding-top:8px; display:block; }
+
+  /* SOCIAL */
+  .soc-row{ display:flex; gap:10px; margin-top:4px; }
+  .soc-btn{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:8px;
+    padding:16px 8px; border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    transition:border-color .2s, transform .15s, color .2s;
+  }
+  .soc-btn:hover{ border-color:var(--red); color:var(--red); transform:translateY(-2px); }
+  .soc-btn span{ font-size:11px; font-weight:700; }
+
+  footer{ padding:22px; text-align:center; font-size:10.5px; color:var(--gray-dim); font-family:'JetBrains Mono',monospace; }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <!-- <div class="cross"></div> -->
+      <div class="nav-name">DOCTOR A 手機急救站</div>
+    </div>
+    <div class="nav-links">
+      <a href="#about">關於我們</a>
+      <a href="#service">服務項目</a>
+      <a href="#contact">聯絡我們</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="carousel">
+      <div class="slide s1">
+        <svg viewBox="0 0 340 425" xmlns="http://www.w3.org/2000/svg">
+          <rect width="340" height="425" fill="#141416"/>
+          <line x1="0" y1="70" x2="340" y2="70" stroke="#232427" stroke-width="1"/>
+          <line x1="0" y1="140" x2="340" y2="140" stroke="#232427" stroke-width="1"/>
+          <line x1="0" y1="210" x2="340" y2="210" stroke="#232427" stroke-width="1"/>
+          <line x1="0" y1="280" x2="340" y2="280" stroke="#232427" stroke-width="1"/>
+          <line x1="0" y1="350" x2="340" y2="350" stroke="#232427" stroke-width="1"/>
+          <rect x="120" y="90" width="100" height="180" rx="16" fill="#101012" stroke="#3A3B41" stroke-width="2"/>
+          <rect x="129" y="103" width="82" height="132" rx="2" fill="#1A1B1E"/>
+          <circle cx="170" cy="253" r="7" fill="#2C2D31"/>
+          <path d="M84 195 L146 195 L156 172 L168 224 L178 195 L190 178 L200 210 L212 195 L256 195"
+                fill="none" stroke="#E4132C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M108 158 L108 146 L120 146" fill="none" stroke="#5B5D63" stroke-width="1.6"/>
+          <path d="M232 158 L232 146 L220 146" fill="none" stroke="#5B5D63" stroke-width="1.6"/>
+          <path d="M108 240 L108 252 L120 252" fill="none" stroke="#5B5D63" stroke-width="1.6"/>
+          <path d="M232 240 L232 252 L220 252" fill="none" stroke="#5B5D63" stroke-width="1.6"/>
+        </svg>
+      </div>
+      <div class="slide s2">
+        <svg viewBox="0 0 340 425" xmlns="http://www.w3.org/2000/svg">
+          <rect width="340" height="425" fill="#141416"/>
+          <rect x="106" y="86" width="128" height="212" rx="18" fill="#101012" stroke="#3A3B41" stroke-width="2"/>
+          <rect x="116" y="100" width="60" height="184" rx="2" fill="#1A1B1E"/>
+          <g>
+            <rect x="182" y="100" width="42" height="184" rx="2" fill="#0B0B0C" stroke="#E4132C" stroke-width="1.4" stroke-dasharray="4 4"/>
+          </g>
+          <path d="M195 60 L165 100" stroke="#5B5D63" stroke-width="1.6"/>
+          <circle cx="200" cy="52" r="18" fill="none" stroke="#E4132C" stroke-width="2"/>
+          <path d="M200 44v16M192 52h16" stroke="#E4132C" stroke-width="2"/>
+          <path d="M60 340 L280 340" stroke="#232427" stroke-width="1"/>
+          <path d="M60 300 L280 300" stroke="#232427" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="slide s3">
+        <svg viewBox="0 0 340 425" xmlns="http://www.w3.org/2000/svg">
+          <rect width="340" height="425" fill="#141416"/>
+          <rect x="70" y="140" width="200" height="130" rx="6" fill="#101012" stroke="#3A3B41" stroke-width="2"/>
+          <circle cx="105" cy="175" r="6" fill="#2C2D31"/>
+          <circle cx="235" cy="175" r="6" fill="#2C2D31"/>
+          <circle cx="105" cy="235" r="6" fill="#2C2D31"/>
+          <circle cx="235" cy="235" r="6" fill="#2C2D31"/>
+          <path d="M105 175 h60 M165 175 v30 M165 205 h50 M235 175 v-0" stroke="#5B5D63" stroke-width="1.4" fill="none"/>
+          <path d="M105 235 h40 M145 235 v-30 M145 205 h20" stroke="#5B5D63" stroke-width="1.4" fill="none"/>
+          <rect x="150" y="180" width="30" height="20" fill="none" stroke="#E4132C" stroke-width="1.6"/>
+          <line x1="165" y1="90" x2="165" y2="150" stroke="#E4132C" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M155 90 L175 90 L165 70 Z" fill="#E4132C"/>
+        </svg>
+      </div>
+      <div class="dots">
+        <span class="a1"></span><span class="a2"></span><span class="a3"></span>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-red" href="#contact">立即預約</a>
+      <a class="btn btn-line" href="#service">服務項目</a>
+    </div>
+  </header>
+
+  <section class="about fade-section" id="about">
+    <h2>關於我們</h2>
+    <p>用專業技術與親切態度，現場即時診斷、原廠零件維修</p>
+    <div class="vitals">
+      <div class="vital"><b>2間</b><span>台北門市</span></div>
+      <div class="vital"><b>原廠</b><span>零件保障</span></div>
+      <div class="vital"><b>現場</b><span>即時維修</span></div>
+    </div>
+  </section>
+
+  <section class="fade-section" id="service">
+    <h2>服務項目</h2>
+    <div class="grid2">
+      <div class="cell">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg></div>
+        <h3>各廠牌手機維修</h3>
+      </div>
+      <div class="cell">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 7v10l8 4 8-4V7"/></svg></div>
+        <h3>二手機收購</h3>
+      </div>
+      <div class="cell">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16"/></svg></div>
+        <h3>廠牌貼膜</h3>
+      </div>
+      <div class="cell">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg></div>
+        <h3>各式手機配件</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-section" id="news">
+    <h2>最新消息</h2>
+    <div class="news-item">
+      <div class="news-date mono">08.27</div>
+      <div class="news-body">
+        <h3>螢幕全碎也能救</h3>
+        <p>iPhone 17 Pro 摔到螢幕、中框全裂，主機板無損，僅更換外部零件即修復。</p>
+      </div>
+    </div>
+    <div class="news-item">
+      <div class="news-date mono">08.12</div>
+      <div class="news-body">
+        <h3>營業時間調整</h3>
+        <p>南京店、林森店統一營業至 23:00，晚下班也能來看診。</p>
+      </div>
+    </div>
+    <div class="news-item">
+      <div class="news-date mono">07.30</div>
+      <div class="news-body">
+        <h3>二手機到貨</h3>
+        <p>多款嚴選二手機到店，保固完整，歡迎現場詢問機況與價格。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-section" id="contact">
+    <h2>門市資訊</h2>
+
+    <div class="clinic">
+      <iframe class="clinic-map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E4%B8%AD%E5%B1%B1%E5%8D%80%E5%8D%97%E4%BA%AC%E6%9D%B1%E8%B7%AF%E4%B8%80%E6%AE%B572%E8%99%9F&z=16&output=embed"></iframe>
+      <div class="clinic-info">
+        <div class="clinic-head">
+          <span class="clinic-name">南京店</span>
+        </div>
+        <div class="clinic-addr">台北市中山區南京東路一段72號</div>
+        <a class="clinic-tel" href="tel:0225819355">☎ (02) 2581-9355</a>
+      </div>
+    </div>
+
+    <div class="clinic">
+      <iframe class="clinic-map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E4%B8%AD%E5%B1%B1%E5%8D%80%E6%9E%97%E6%A3%AE%E5%8C%97%E8%B7%AF287%E4%B9%8B1%E8%99%9F&z=16&output=embed"></iframe>
+      <div class="clinic-info">
+        <div class="clinic-head">
+          <span class="clinic-name">林森店</span>
+        </div>
+        <div class="clinic-addr">台北市中山區林森北路287之1號</div>
+        <a class="clinic-tel" href="tel:0225219355">☎ (02) 2521-9355</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-section" style="border-bottom:none;">
+    <h2>社群連結</h2>
+    <div class="soc-row">
+      <a class="soc-btn" href="https://www.instagram.com/doctor_a0225819355/">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        <span>Instagram</span>
+      </a>
+      <a class="soc-btn" href="https://www.facebook.com/EllebyInformationCo/">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h-2a4 4 0 00-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        <span>Facebook</span>
+      </a>
+      <a class="soc-btn" href="https://www.tiktok.com/@doctor_a001">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 3v10.5a3.5 3.5 0 11-3.5-3.5"/><path d="M14 3c0 2.5 2 4.5 4.5 4.5"/></svg>
+        <span>TikTok</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>DOCTOR A 手機急救站 © All Rights Reserved</footer>
+
+  <script>
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-section').forEach(el=>io.observe(el));
+  </script>
+
+</body>
+</html>
